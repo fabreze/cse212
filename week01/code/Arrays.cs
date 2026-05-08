@@ -15,15 +15,15 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        List<double> dynamicArray = new(); // Create an empty dynamic array
-        for (int i = 1; i <= length; i++) // Starting at 1, multiply i by the number to get the multiples of it and add it to the list
+        List<double> dynamicArray = new(); // Create an empty list
+        for (int i = 1; i <= length; i++) // Use a loop to find the multiples of number
         {
-            double multiple = number * i;
-            dynamicArray.Add(multiple);
+            double multiple = number * i; //Multiply number by i to get its multiple
+            dynamicArray.Add(multiple); //Add the multiple to the list
         }
 
-        double[] results = dynamicArray.ToArray();//convert the list to a fixed array
-        return results;
+        double[] results = dynamicArray.ToArray();//Convert the list to a fixed array
+        return results;//Return the fixed array
     }
 
     /// <summary>
