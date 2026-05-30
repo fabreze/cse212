@@ -21,8 +21,38 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        //Create an empty List to store the result
+        List<string> result = new List<string>(words.Length/2);
+
+        //Intialize a Hash Set to store words without pairings
+        HashSet<string> seenWords = new HashSet<string>();
+
+        //Iterate through words
+        foreach (string word in words)
+        {
+            //Check if the letters in the word pair are the same
+            if(word[0] == word[1])
+            {
+                continue;
+            }
+
+            //Generate the reverse of a word
+            string reversed = new string(new char[] { word[1], word[0] });
+
+            //Check if the reversed word is found in seenWords
+            if (seenWords.Contains(reversed))
+            {
+                //If it is, concatenate word and reversed and add it to result
+                result.Add($"{reversed} & {word}");
+            }
+            else
+            {
+                //Otherwise, add word to seenWords
+                seenWords.Add(word);
+            }
+        }
+        //Convert the list to an array and return it
+        return result.ToArray();
     }
 
     /// <summary>
@@ -43,6 +73,20 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+
+            //Get the degree and store it in a string
+            string degree = fields[3];
+
+            // If the degree is already in the dictionary, increase the count
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            }
+            // Otherwise, add it to the dictionary with a count of 1
+            else
+            {
+                degrees[degree] = 1;
+            }
         }
 
         return degrees;
@@ -67,7 +111,54 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+
+        //Format both words to remove spaces and convert to undercase
+        string formattedWord1 = word1.ToLower().Replace(" ", "");
+        string formattedWord2 = word2.ToLower().Replace(" ", "");
+
+        //Checks if the both words are of different lengths
+        if(formattedWord1.Length != formattedWord2.Length)
+        {
+            return false;
+        }
+
+        //Initialize a dictionary in order to count the characters
+        Dictionary<char, int> charCount = new Dictionary<char, int>();
+
+
+        //Loops through the first word and counts character repetitions
+        for (int i = 0; i < formattedWord1.Length; i++)
+        {
+            char c = formattedWord1[i];
+            //if a character already exists increase the count by 1
+            if (charCount.ContainsKey(c))
+            {
+                charCount[c]++;
+            }
+            //else create a new entry in the dictionary and map it to one
+            else
+            {
+                charCount[c] = 1;
+            }
+        }
+
+        //Loops through the second word
+        for (int i = 0; i < formattedWord2.Length; i++)
+        {
+            char c = formattedWord2[i];
+            
+            //If the character doesn't exist in the Dictionary or if the character repeats more times than the first word, return false
+            if (!charCount.ContainsKey(c) || charCount[c] == 0)
+            {
+                return false;
+            }
+            
+            //Subtracts the count from the dictionary at the index of the character
+            charCount[c]--;
+        }
+
+        //return true since every letter matches between both words
+        return true;
     }
 
     /// <summary>
